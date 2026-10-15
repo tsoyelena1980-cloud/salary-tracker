@@ -1,0 +1,394 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f1ea;
+  --bg-glow: #fff;
+  --ink: #1c2430;
+  --muted: #5d6775;
+  --line: #e4ddd2;
+  --card: #fffdf9;
+  --grid: #efe8de;
+  --input-bg: #fff;
+  --input-line: #d9d1c5;
+  --focus: #c9e6d8;
+  --row-hover: #faf7f2;
+  --row-active: #f3f8f5;
+  --income: #1f8a5b;
+  --income-soft: #e5f6ee;
+  --expense: #c4475d;
+  --expense-soft: #fdecef;
+  --accent: #245c4a;
+  --shadow: 0 10px 30px rgba(40, 32, 20, 0.06);
+  --radius: 16px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #141a22;
+  --bg-glow: #243246;
+  --ink: #eef2f6;
+  --muted: #a8b3c2;
+  --line: #2e3948;
+  --card: #1c2430;
+  --grid: #2e3948;
+  --input-bg: #121820;
+  --input-line: #3c4a5c;
+  --focus: #2f6b56;
+  --row-hover: #263140;
+  --row-active: #24362e;
+  --income: #3cba7a;
+  --income-soft: #163528;
+  --expense: #ef6d82;
+  --expense-soft: #3a2229;
+  --accent: #2f8f6a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, var(--bg-glow) 0, transparent 32rem),
+    var(--bg);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+button, input, select {
+  font: inherit;
+  color: inherit;
+}
+
+.top, .top-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.top {
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 0.5rem;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin-top: 0.2rem;
+  font-size: 1.9rem;
+  letter-spacing: -0.03em;
+}
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.tab {
+  background: transparent;
+  color: var(--muted);
+  border-radius: 10px;
+}
+
+.tab[aria-selected="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tab-stage {
+  position: relative;
+  overflow: hidden;
+  transition: height 0.4s ease;
+}
+
+.tab-panel {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+}
+
+.tab-panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  position: relative;
+  transform: none;
+}
+
+.form, .chart-narrow {
+  max-width: 560px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.card, .panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card {
+  padding: 1.1rem 1.2rem 1.2rem;
+}
+
+.card h2, .panel h2 {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.money {
+  margin-top: 0.45rem;
+  font-size: 1.7rem;
+  font-weight: 720;
+  letter-spacing: -0.03em;
+}
+
+.income { color: var(--income); }
+.expense { color: var(--expense); }
+.positive { color: var(--income); }
+.negative { color: var(--expense); }
+
+.charts, .workspace {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 1rem;
+}
+
+.workspace {
+  grid-template-columns: 320px 1fr;
+  align-items: start;
+}
+
+.panel {
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 320px;
+  margin-top: 0.4rem;
+}
+
+.chart-caption {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.form, .list-head, .filters, label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form {
+  gap: 0.75rem;
+}
+
+.form h2, .list-head h2 {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+input, select {
+  width: 100%;
+  border: 1px solid var(--input-line);
+  background: var(--input-bg);
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+}
+
+input:focus, select:focus {
+  outline: 2px solid var(--focus);
+  border-color: var(--accent);
+}
+
+.month-field {
+  min-width: 180px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.form-actions, .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.form-actions button, .filters label {
+  font-size: 0.92rem;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid var(--input-line);
+  white-space: nowrap;
+}
+
+.danger, .row-delete {
+  background: var(--expense-soft);
+  color: var(--expense);
+}
+
+.row-delete {
+  padding: 0.3rem 0.55rem;
+  border-radius: 8px;
+}
+
+.list-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.8rem;
+}
+
+.filters label {
+  min-width: 140px;
+}
+
+.search-field {
+  min-width: 220px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.65rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+th {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: var(--row-hover);
+}
+
+tbody tr.active {
+  background: var(--row-active);
+}
+
+.num, td.amount {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.badge.income {
+  background: var(--income-soft);
+}
+
+.badge.expense {
+  background: var(--expense-soft);
+}
+
+.empty, .error {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+}
+
+.error {
+  color: var(--expense);
+  background: var(--expense-soft);
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-stage, .tab-panel {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .cards, .charts, .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .top, .top-actions, .list-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}

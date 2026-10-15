@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Трекер доходов и расходов</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Личные финансы</p>
+      <h1>Трекер доходов и расходов</h1>
+    </div>
+    <div class="top-actions">
+      <button type="button" id="theme-toggle" class="ghost" aria-pressed="false">Тёмная тема</button>
+      <label class="month-field">
+        Месяц
+        <input type="month" id="month" aria-label="Месяц отчёта">
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <div class="tabs" role="tablist" aria-label="Разделы">
+      <button type="button" class="tab" role="tab" id="tab-summary" data-tab="summary" aria-controls="panel-summary" aria-selected="true">Итоги</button>
+      <button type="button" class="tab" role="tab" id="tab-categories" data-tab="categories" aria-controls="panel-categories" aria-selected="false" tabindex="-1">Категории</button>
+      <button type="button" class="tab" role="tab" id="tab-expenses" data-tab="expenses" aria-controls="panel-expenses" aria-selected="false" tabindex="-1">Структура расходов</button>
+      <button type="button" class="tab" role="tab" id="tab-form" data-tab="form" aria-controls="panel-form" aria-selected="false" tabindex="-1">Операция</button>
+      <button type="button" class="tab" role="tab" id="tab-list" data-tab="list" aria-controls="panel-list" aria-selected="false" tabindex="-1">Журнал</button>
+    </div>
+
+    <div class="tab-stage">
+    <section id="panel-summary" class="tab-panel is-active" role="tabpanel" aria-labelledby="tab-summary">
+    <section class="cards" aria-label="Итоги за месяц">
+      <article class="card">
+        <h2>Доходы</h2>
+        <p id="income-total" class="money income">0 ₽</p>
+      </article>
+      <article class="card">
+        <h2>Расходы</h2>
+        <p id="expense-total" class="money expense">0 ₽</p>
+      </article>
+      <article class="card">
+        <h2>Баланс</h2>
+        <p id="balance-total" class="money">0 ₽</p>
+      </article>
+    </section>
+    </section>
+
+    <section id="panel-categories" class="tab-panel" role="tabpanel" aria-labelledby="tab-categories" aria-hidden="true">
+      <article class="panel">
+        <h2>Доходы и расходы по категориям</h2>
+        <canvas id="bar-chart" aria-label="Столбчатая диаграмма доходов и расходов по категориям"></canvas>
+        <p class="chart-caption">Доли по категориям</p>
+        <canvas id="pie-chart" aria-label="Круговая диаграмма доходов и расходов по категориям"></canvas>
+      </article>
+    </section>
+
+    <section id="panel-expenses" class="tab-panel" role="tabpanel" aria-labelledby="tab-expenses" aria-hidden="true">
+      <article class="panel chart-narrow">
+        <h2>Структура расходов</h2>
+        <canvas id="donut-chart" aria-label="Кольцевая диаграмма структуры расходов"></canvas>
+      </article>
+    </section>
+
+    <section id="panel-form" class="tab-panel" role="tabpanel" aria-labelledby="tab-form" aria-hidden="true">
+      <form id="tx-form" class="panel form" novalidate>
+        <h2 id="form-title">Новая операция</h2>
+        <p id="form-error" class="error" hidden></p>
+
+        <label>
+          Тип
+          <select id="type" required>
+            <option value="income">Доход</option>
+            <option value="expense">Расход</option>
+          </select>
+        </label>
+
+        <label>
+          Сумма, ₽
+          <input id="amount" type="number" min="0.01" step="0.01" required placeholder="0,00">
+        </label>
+
+        <label>
+          Категория
+          <select id="category" required></select>
+        </label>
+
+        <label>
+          Дата
+          <input id="date" type="date" required>
+        </label>
+
+        <label>
+          Комментарий
+          <input id="note" type="text" maxlength="120" placeholder="Необязательно">
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" id="save-btn" class="primary">Добавить</button>
+          <button type="button" id="cancel-btn" class="ghost" hidden>Отмена</button>
+          <button type="button" id="delete-btn" class="danger" hidden>Удалить</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="panel-list" class="tab-panel" role="tabpanel" aria-labelledby="tab-list" aria-hidden="true">
+      <section class="panel list" aria-label="Операции">
+        <div class="list-head">
+          <h2>Операции</h2>
+          <div class="filters">
+            <label>
+              Тип
+              <select id="type-filter">
+                <option value="all">Все</option>
+                <option value="income">Доходы</option>
+                <option value="expense">Расходы</option>
+              </select>
+            </label>
+            <label class="search-field">
+              Поиск
+              <input id="search" type="search" placeholder="Категория или комментарий">
+            </label>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Категория</th>
+                <th>Комментарий</th>
+                <th class="num">Сумма</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tx-body"></tbody>
+          </table>
+          <p id="empty-list" class="empty" hidden>За этот месяц операций нет</p>
+        </div>
+      </section>
+    </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
